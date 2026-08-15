@@ -13,39 +13,40 @@ final class AlbumService {
 
     public function create(NewAlbumData $data) : Album {
 
-        $id = $this->albumRep->generateId();  
-
-        $album = new Album(
-            id: $id,
-            name: $data->name,
-            duration: $data->duration,
-
-            desc: $data?->desc,
-            artist: $data?->artist,
-            genre: $data?->genre
+        $persisted = $this->albumRep->save($data);
+        
+        return new Album(
+            id: $persisted->id,
+            name: $persisted->name,
+            duration: $persisted->duration,
+            desc: $persisted->desc,
+            artist: $persisted->artist,
+            genre: $persisted->genre
         );
-
-        $this->albumRep->save($album);
-        return $album;
     }
 
     public function listAll(): array {
+
         return $this->albumRep->findAll();
+
     }   
 
     public function listById(int $id) : Album {
+
         return $this->albumRep->findById($id);
+
     }
 
     public function edit(Album $album) : Album {
 
-        $this->albumRep->update($album);
-        return $album;
+        return $this->albumRep->update($album);
+        
     }
 
     public function delete(int $id) : int {
-        $this->albumRep->destroy($id);
-        return $id;
+
+        return $this->albumRep->destroy($id);
+
     }
 
 }

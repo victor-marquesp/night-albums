@@ -6,9 +6,11 @@ use PDO;
 
 use App\Data\Repositories\Contracts\IAlbumRepository;
 
-use App\Domain\Models\Album;
 use App\Domain\Mappers\AlbumMapper;
+use App\Shared\DTO\NewAlbumData;
 
+use App\Domain\Models\Album;
+use App\Shared\DTO\AlbumPersistedData;
 
 final class AlbumSQLiteRepository implements IAlbumRepository {
 
@@ -17,19 +19,27 @@ final class AlbumSQLiteRepository implements IAlbumRepository {
         private AlbumMapper $albumMapper
     ) {}
 
-    public function save(Album $album) : Album {
+    public function save(NewAlbumData $data) : AlbumPersistedData {
 
-        $data = $this->albumMapper->toArray($album);
-        unset($data['id']);
+        $params = $this->albumMapper->toInsertParams($data);
 
         $stmt = $this->pdo->prepare("
                     INSERT INTO albums (name, duration, desc, artist, genre) 
                     VALUES (:name, :duration, :desc, :artist, :genre)
                 ");
         
-        $stmt->execute($data);
+        $stmt->execute($params);
 
-        return $album;
+        $id = (int) $this->pdo->lastInsertId();
+
+        return new AlbumPersistedData(
+            id: $id,
+            name: $data->name,
+            duration: $data->duration,
+            desc: $data->desc,
+            artist: $data->artist,
+            genre: $data->genre
+        );
 
     }
 

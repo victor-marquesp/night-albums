@@ -4,6 +4,9 @@ namespace App\Domain\Mappers;
 
 use App\Domain\Models\Album;
 
+use App\Shared\DTO\AlbumPersistedData;
+use App\Shared\DTO\NewAlbumData;
+
 class AlbumMapper {
 
     public function toArray(Album $album) : array {
@@ -29,6 +32,18 @@ class AlbumMapper {
             artist: $data['artist'] ?? null,
             genre: $data['genre'] ?? null
         );
+
+    }
+
+    public function toInsertParams(NewAlbumData $data) : array {
+
+        return [
+            'name' => $data->name,
+            'duration' => $data->duration,
+            'desc' => $data->desc,
+            'artist' => $data->artist,
+            'genre' => $data->genre
+        ];
 
     }
 

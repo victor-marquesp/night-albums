@@ -5,6 +5,7 @@ namespace App\Domain\Models;
 use App\Shared\Exceptions\InvalidAlbumDataException;
 
 class Album {
+    
     private readonly int $id;
 
     private string $name;
