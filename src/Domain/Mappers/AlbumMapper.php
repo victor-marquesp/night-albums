@@ -4,7 +4,6 @@ namespace App\Domain\Mappers;
 
 use App\Domain\Models\Album;
 
-use App\Shared\DTO\AlbumPersistedData;
 use App\Shared\DTO\NewAlbumData;
 
 class AlbumMapper {
