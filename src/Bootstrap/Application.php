@@ -5,7 +5,6 @@ namespace App\Bootstrap;
 
 use App\Data\Repositories\ExperienceMemoryRepository;
 use App\Data\Repositories\AlbumMemoryRepository;
-use App\Data\Repositories\AlbumSimulatedErrorRepository;
 
 use App\Domain\Services\ExperienceService;
 use App\Domain\Services\AlbumService;
