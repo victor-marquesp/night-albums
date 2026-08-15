@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Data\Repositories;
+
+use PDO;
+
+use App\Data\Repositories\Contracts\IAlbumRepository;
+
+use App\Domain\Models\Album;
+use App\Domain\Mappers\AlbumMapper;
+
+
+final class AlbumSQLiteRepository implements IAlbumRepository {
+
+    public function __construct(
+        private PDO $pdo,
+        private AlbumMapper $albumMapper
+    ) {}
+
+    public function save(Album $album) : Album {
+
+        $data = $this->albumMapper->toArray($album);
+        unset($data['id']);
+
+        $stmt = $this->pdo->prepare("
+                    INSERT INTO albums (name, duration, desc, artist, genre) 
+                    VALUES (:name, :duration, :desc, :artist, :genre)
+                ");
+        
+        $stmt->execute($data);
+
+        return $album;
+
+    }
+
+    public function findAll() : array {
+        
+        $query = $this->pdo->query("SELECT * FROM albums");
+        
+        $albums = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(
+            fn ($album) => $this->albumMapper->fromArray($album),
+            $albums
+        );
+
+    }
+
+    public function findById(int $id) : Album {
+        
+        $query = $this->pdo->prepare("SELECT * FROM albums WHERE id = :id");
+
+        $query->execute(['id' => $id]);
+
+        $albumArray = $query->fetch(PDO::FETCH_ASSOC);
+
+        $album = $this->albumMapper->fromArray($albumArray);
+
+        return $album;
+    }
+
+    public function update(Album $album) : Album {
+        
+        $data = $this->albumMapper->toArray($album);
+
+        $stmt = $this->pdo->prepare("
+                    UPDATE albums
+                    SET name = :name, duration = :duration, desc = :desc, artist = :artist, genre = :genre 
+                    WHERE id = :id;
+                ");
+
+        $stmt->execute($data);
+
+        return $album;
+
+    }
+
+    public function destroy(int $id) : int {
+        
+        $stmt = $this->pdo->prepare("DELETE FROM albums WHERE id = :id");
+
+        $stmt->execute(['id' => $id]);
+
+        return $id;
+
+    }
+
+}
