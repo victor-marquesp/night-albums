@@ -1,6 +1,7 @@
 {
     "name": "w4rqu/night-albums",
     "description": "Rate your album experiences.",
+    
     "autoload": {
         "psr-4": {
             "App\\": "src/",
@@ -10,13 +11,18 @@
             "tests/main_test.php"
         ]
     },
+    
     "authors": [
         {
             "name": "Victor Marques",
             "email": "victor.pecine.marquesp@gmail.com"
         }
     ],
-    "require": {
-        "fakerphp/faker": "^1.24"
+
+    "require": {},
+
+    "require-dev": {
+        "fakerphp/faker": "^1.24",
+        "phpunit/phpunit": "^13"
     }
 }
