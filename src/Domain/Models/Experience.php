@@ -4,7 +4,7 @@ namespace App\Domain\Models;
 
 use App\Domain\Models\Album;
 
-use InvalidArgumentException;
+use App\Shared\Exceptions\InvalidExperienceDataException;
 
 class Experience {
     private readonly int $id;
@@ -44,7 +44,7 @@ class Experience {
 
     private function setMood(string $mood) : void {
         if(mb_strlen($mood) > 120 ) {
-            throw new InvalidArgumentException("Palavra Muito Grande (Mood de Experience)");
+            throw new InvalidExperienceDataException("Palavra Muito Grande (Mood de Experience)");
         }
 
         $this->mood = $mood;
@@ -52,13 +52,18 @@ class Experience {
 
     private function setStars(float $stars) : void {
         if($stars < 0 || $stars > 5) {
-            throw new InvalidArgumentException("Estrelas devem estar no intervalo de 0 - 5");
+            throw new InvalidExperienceDataException("Estrelas devem estar no intervalo de 0 - 5");
         }
 
         $this->stars = $stars;
     }
 
     private function setDesc(?string $desc) : void {
+
+        if($desc != null && mb_strlen($desc) > 10000) {
+            throw new InvalidExperienceDataException('Descrição desmasiada longa');
+        }
+
         $this->desc = $desc;
     }
 

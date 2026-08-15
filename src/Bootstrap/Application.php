@@ -56,76 +56,76 @@ class Application {
 
         Router::setFactory($screenFactory);
 
-        $this->populate($albumService, $experienceService);
+        // $this->populate($albumService, $experienceService);
 
     }
 
-    private function populate($albumService, $experienceService) {
+    // private function populate($albumService, $experienceService) {
 
 
-        $albumService->create(new NewAlbumData(
-                name: 'The Bends',
-                duration: 50,
-                desc: 'One of the best of them',
-                artist: 'Radiohead',
-                genre: 'Alternative Rock'
-            )
-        );
+    //     $albumService->create(new NewAlbumData(
+    //             name: 'The Bends',
+    //             duration: 50,
+    //             desc: 'One of the best of them',
+    //             artist: 'Radiohead',
+    //             genre: 'Alternative Rock'
+    //         )
+    //     );
 
-        $albumService->create(new NewAlbumData(
-                name: 'Thriller',
-                duration: 60,
-                desc: 'Zombies',
-                artist: 'Michael Jackson',
-                genre: 'Pop'
-            )
-        );
+    //     $albumService->create(new NewAlbumData(
+    //             name: 'Thriller',
+    //             duration: 60,
+    //             desc: 'Zombies',
+    //             artist: 'Michael Jackson',
+    //             genre: 'Pop'
+    //         )
+    //     );
 
-        $albumService->create(new NewAlbumData(
-                name: 'Rust In... Polaris',
-                duration: 43,
-                artist: 'Megadeth',
-                genre: 'Trash Metal'
-            )
-        );
+    //     $albumService->create(new NewAlbumData(
+    //             name: 'Rust In... Polaris',
+    //             duration: 43,
+    //             artist: 'Megadeth',
+    //             genre: 'Trash Metal'
+    //         )
+    //     );
 
-        $albumService->create(new NewAlbumData(
-                name: 'Divino',
-                duration: 67,
-                artist: 'Venere Vai Venus',
-                genre: 'Rock'
-            )
-        );
+    //     $albumService->create(new NewAlbumData(
+    //             name: 'Divino',
+    //             duration: 67,
+    //             artist: 'Venere Vai Venus',
+    //             genre: 'Rock'
+    //         )
+    //     );
 
-        $experienceService->create(new NewExperienceData(
-                albumId: 0,
-                mood: 'spacefull',
-                stars: 5,
-                desc: 'It sounds like space',
-            )
-        );
+    //     $experienceService->create(new NewExperienceData(
+    //             albumId: 0,
+    //             mood: 'spacefull',
+    //             stars: 5,
+    //             desc: 'It sounds like space',
+    //         )
+    //     );
 
-        $experienceService->create(new NewExperienceData(
-                albumId: 1,
-                mood: 'assustador',
-                stars: 5,
-            )
-        );
+    //     $experienceService->create(new NewExperienceData(
+    //             albumId: 1,
+    //             mood: 'assustador',
+    //             stars: 5,
+    //         )
+    //     );
 
-        $experienceService->create(new NewExperienceData(
-                albumId: 2,
-                mood: 'aggressive',
-                stars: 5,
-            )
-        );
+    //     $experienceService->create(new NewExperienceData(
+    //             albumId: 2,
+    //             mood: 'aggressive',
+    //             stars: 5,
+    //         )
+    //     );
 
-        $experienceService->create(new NewExperienceData(
-                albumId: 3,
-                mood: 'beautifull',
-                stars: 4,
-                desc: 'actually didnt listen yet',
-            )
-        );
-    }
+    //     $experienceService->create(new NewExperienceData(
+    //             albumId: 3,
+    //             mood: 'beautifull',
+    //             stars: 4,
+    //             desc: 'actually didnt listen yet',
+    //         )
+    //     );
+    // }
 
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Models;
 
-use InvalidArgumentException;
+use App\Shared\Exceptions\InvalidAlbumDataException;
 
 class Album {
     private readonly int $id;
@@ -42,11 +42,11 @@ class Album {
     private function setName(string $name) {
 
         if(trim($name) === '') {
-            throw new InvalidArgumentException("Nome de Álbum Nulo");
+            throw new InvalidAlbumDataException("Nome de Álbum Nulo");
         }
 
         if(mb_strlen($name) > 120) {
-            throw new InvalidArgumentException("Nome de Álbum Excepcionalmente Grande");
+            throw new InvalidAlbumDataException("Nome de Álbum Excepcionalmente Grande");
         }
 
         $this->name = $name;
@@ -55,7 +55,7 @@ class Album {
     private function setDuration(int $duration) {
 
         if($duration <= 0) {
-            throw new InvalidArgumentException("Duração deve ser Positiva");
+            throw new InvalidAlbumDataException("Duração deve ser Positiva");
         }
 
         $this->duration = $duration;
@@ -65,7 +65,7 @@ class Album {
     private function setDesc(?string $desc) {
 
         if($desc != null && mb_strlen($desc) > 1000) {
-            throw new InvalidArgumentException("Descrição Desnecessáriamente Longa");
+            throw new InvalidAlbumDataException("Descrição Desnecessáriamente Longa");
         }
 
         $this->desc = $desc;
@@ -74,13 +74,23 @@ class Album {
     }
 
     private function setArtist(?string $artist) {
-         $this->artist = $artist;
-         return true;
+
+        if($artist != null && mb_strlen($artist) > 120) {
+            throw new InvalidAlbumDataException("Nome de Artista Muito Longo");
+        }
+         
+        $this->artist = $artist;
+        return true;
     }
 
     private function setGenre(?string $genre) {
-         $this->genre = $genre;
-         return true;
+
+        if($genre != null && mb_strlen($genre) > 120) {
+            throw new InvalidAlbumDataException("Nome de Genêro Muito Longo");
+        }
+
+        $this->genre = $genre;
+        return true;
     }
 
     public function getId() : int {
