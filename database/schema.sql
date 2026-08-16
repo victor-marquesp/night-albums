@@ -16,12 +16,13 @@ CREATE TABLE albums (
 CREATE TABLE experiences (
 
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    album_fk INTEGER,
+    album_id INTEGER,
 
+    title VARCHAR(120) NOT NULL,
     mood VARCHAR(120) NOT NULL,
     stars FLOAT NOT NULL CHECK(stars >= 0 AND stars <= 5 ),
 
     desc TEXT NULL CHECK(length(desc) <= 10000),
 
-    FOREIGN KEY (album_fk) REFERENCES albums (id)
+    FOREIGN KEY (album_id) REFERENCES albums (id)
 );

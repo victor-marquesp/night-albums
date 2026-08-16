@@ -28,8 +28,13 @@ final class AlbumListView {
 
         } else {
 
+            $array = [];
+            foreach($albums as $album) {
+                $array[$album->getId()] = $album; 
+            }
+
             Render::list(
-                $albums,
+                $array,
                 fn (Album $a) => $a->getName()
             );
 

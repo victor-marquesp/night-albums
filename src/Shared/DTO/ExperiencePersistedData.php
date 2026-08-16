@@ -2,8 +2,9 @@
 
 namespace App\Shared\DTO;
 
-class NewExperienceData {
+class ExperiencePersistedData {
     public function __construct(
+        public readonly int $id,
         public readonly int $albumId,
         public readonly string $title,
         public readonly string $mood,

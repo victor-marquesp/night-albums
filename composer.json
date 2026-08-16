@@ -7,9 +7,7 @@
             "App\\": "src/",
             "Tests\\": "tests/"
         },
-        "files": [
-            "tests/main_test.php"
-        ]
+        "files": []
     },
     
     "authors": [

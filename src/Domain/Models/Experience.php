@@ -2,14 +2,13 @@
 
 namespace App\Domain\Models;
 
-use App\Domain\Models\Album;
-
 use App\Shared\Exceptions\InvalidExperienceDataException;
 
 class Experience {
     private readonly int $id;
-    private readonly Album $album;
+    private readonly int $albumId;
 
+    private string $title;
     private string $mood;
     private float $stars;
     
@@ -17,13 +16,15 @@ class Experience {
 
     public function __construct(
         int $id, 
-        Album $album, 
+        int $albumId, 
+        string $title,
         string $mood, 
         float $stars, 
         ?string $desc = null) {
         
+        $this->setTitle($title);
         $this->setId($id);
-        $this->setAlbum($album);
+        $this->setAlbumId($albumId);
         $this->setDesc($desc);
         $this->setMood($mood);  
         $this->setStars($stars);
@@ -38,8 +39,16 @@ class Experience {
         $this->id = $id;
     }
 
-    private function setAlbum(Album $album) : void {
-        $this->album = $album;
+    private function setAlbumId(int $albumId) : void {
+        $this->albumId = $albumId;
+    }
+
+    private  function setTitle(string $title) : void {
+        if(mb_strlen($title) > 120 ) {
+            throw new InvalidExperienceDataException("Palavra Muito Grande (Mood de Experience)");
+        }
+
+        $this->title = $title;
     }
 
     private function setMood(string $mood) : void {
@@ -71,8 +80,12 @@ class Experience {
         return $this->id;
     }   
      
-    public function getAlbum() : Album {
-        return $this->album;
+    public function getAlbumId() : int {
+        return $this->albumId;
+    }
+
+    public function getTitle() : string {
+        return $this->title;
     }
 
     public function getMood() : string {

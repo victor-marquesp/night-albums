@@ -25,13 +25,11 @@ final class AlbumSQLiteRepository implements IAlbumRepository {
 
         $stmt = $this->pdo->prepare("
                     INSERT INTO albums (name, duration, desc, artist, genre) 
-                    VALUES (:name, :duration, :desc, :artist, :genre)
+                    VALUES (:name, :duration, :desc, :artist, :genre);
                 ");
-        
         $stmt->execute($params);
 
         $id = (int) $this->pdo->lastInsertId();
-
         return new AlbumPersistedData(
             id: $id,
             name: $data->name,
@@ -45,7 +43,7 @@ final class AlbumSQLiteRepository implements IAlbumRepository {
 
     public function findAll() : array {
         
-        $query = $this->pdo->query("SELECT * FROM albums");
+        $query = $this->pdo->query("SELECT * FROM albums;");
         
         $albums = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -58,37 +56,32 @@ final class AlbumSQLiteRepository implements IAlbumRepository {
 
     public function findById(int $id) : Album {
         
-        $query = $this->pdo->prepare("SELECT * FROM albums WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT * FROM albums WHERE id = :id;");
+        $stmt->execute(['id' => $id]);
 
-        $query->execute(['id' => $id]);
+        $albumArray = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $albumArray = $query->fetch(PDO::FETCH_ASSOC);
-
-        $album = $this->albumMapper->fromArray($albumArray);
-
-        return $album;
+        return $this->albumMapper->fromArray($albumArray);
     }
 
-    public function update(Album $album) : Album {
+    public function update(Album $data) : Album {
         
-        $data = $this->albumMapper->toArray($album);
+        $albumArray = $this->albumMapper->toArray($data);
 
         $stmt = $this->pdo->prepare("
-                    UPDATE albums
-                    SET name = :name, duration = :duration, desc = :desc, artist = :artist, genre = :genre 
-                    WHERE id = :id;
-                ");
+                UPDATE albums
+                SET name = :name, duration = :duration, desc = :desc, artist = :artist, genre = :genre 
+                WHERE id = :id;
+            ");
+        $stmt->execute($albumArray);
 
-        $stmt->execute($data);
-
-        return $album;
+        return $data;
 
     }
 
     public function destroy(int $id) : int {
         
-        $stmt = $this->pdo->prepare("DELETE FROM albums WHERE id = :id");
-
+        $stmt = $this->pdo->prepare("DELETE FROM albums WHERE id = :id;");
         $stmt->execute(['id' => $id]);
 
         return $id;

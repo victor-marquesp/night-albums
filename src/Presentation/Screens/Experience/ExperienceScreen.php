@@ -6,11 +6,8 @@ use App\Presentation\Screens\Abstracts\Screen;
 use App\Presentation\Controllers\ExperienceController;
 use App\Presentation\Views\Experience\ExperienceView;
 use App\Presentation\Views\FeedbackView;
-use App\Presentation\CLI\Output;
 
 use App\Domain\Models\Experience;
-
-use App\Shared\Results\Success;
 
 use App\Navigation\Router;
 use App\Navigation\RouteNames;

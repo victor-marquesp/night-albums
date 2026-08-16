@@ -3,16 +3,20 @@
 namespace App\Data\Repositories\Contracts;
 
 use App\Domain\Models\Experience;
+use App\Shared\DTO\ExperiencePersistedData;
+use App\Shared\DTO\NewExperienceData;
 
 interface IExperienceRepository {
 
-    public function save(Experience $experience) : Experience;
+    public function save(NewExperienceData $data) : ExperiencePersistedData;
     
     public function findAll() : array;
 
     public function findById(int $id) : Experience;
 
-    public function update(Experience $experience) : Experience;
+    public function findByAlbum(int $albumId) : array;
+
+    public function update(Experience $data) : Experience;
 
     public function destroy(int $id) : int;
 }

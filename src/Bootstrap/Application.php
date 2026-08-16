@@ -4,9 +4,10 @@ namespace App\Bootstrap;
 
 use App\Data\DatabaseConnection;
 
-use App\Data\Repositories\ExperienceMemoryRepository;
-use App\Data\Repositories\AlbumMemoryRepository;
-
+use App\Data\Repositories\AlbumSQLiteRepository;
+use App\Data\Repositories\ExperienceSQLiteRepository;
+use App\Domain\Mappers\AlbumMapper;
+use App\Domain\Mappers\ExperienceMapper;
 use App\Domain\Services\ExperienceService;
 use App\Domain\Services\AlbumService;
 
@@ -34,15 +35,22 @@ class Application {
 
         // Instancia as dependências
 
+        // Mappers
+        $albumMapper = new AlbumMapper();
+        $experienceMapper = new ExperienceMapper();
+
         // Repositórios
-        $experienceRepository = new ExperienceMemoryRepository();
-        $albumRepository = new AlbumMemoryRepository();
+        $experienceRepository = new ExperienceSQLiteRepository(
+            pdo: $databaseConnection->getConnection(),
+            experienceMapper: $experienceMapper
+        );
+        $albumRepository = new AlbumSQLiteRepository(
+            pdo: $databaseConnection->getConnection(), 
+            albumMapper: $albumMapper
+        );
 
         // Services
-        $experienceService = new ExperienceService(
-            experienceRep: $experienceRepository,
-            albumRep: $albumRepository
-        );
+        $experienceService = new ExperienceService($experienceRepository);
         $albumService = new AlbumService($albumRepository);
 
         // Controllers

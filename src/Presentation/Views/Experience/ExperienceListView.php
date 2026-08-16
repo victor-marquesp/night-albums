@@ -31,9 +31,9 @@ final class ExperienceListView {
             Render::list(
                 $experiences,
                 fn (Experience $e) =>
-                    $e->getAlbum()->getName()
+                    $e->getTitle()
                     . ' | '
-                    . substr($e->getDesc() ?? '-', 0, 20)
+                    . substr($e->getDesc(), 0, 20) . '...'
                     . ' | '
                     . $e->getMood()
             );

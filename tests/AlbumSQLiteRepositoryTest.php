@@ -11,14 +11,13 @@ use App\Domain\Models\Album;
 use App\Shared\DTO\NewAlbumData;
 use App\Shared\DTO\AlbumPersistedData;
 
-class AlbumSQLiteRepositoryTest extends TestCase
-{
+class AlbumSQLiteRepositoryTest extends TestCase {
+    
     private PDO $db;
     private AlbumSQLiteRepository $repository;
     private AlbumMapper $mapper;
 
-    protected function setUp(): void
-    {
+    protected function setUp() : void {
         $this->db = new PDO('sqlite::memory:');
 
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -34,8 +33,7 @@ class AlbumSQLiteRepositoryTest extends TestCase
         $this->repository = new AlbumSQLiteRepository(pdo: $this->db, albumMapper: $this->mapper);
     }
 
-    public function testCanCreateWithValidData(): void
-    {
+    public function testCanCreateWithValidData() : void {
 
         $data = new NewAlbumData(
             name: 'PHPUnit Album',
@@ -56,8 +54,7 @@ class AlbumSQLiteRepositoryTest extends TestCase
         $this->assertSame($data->genre, $persistedData->genre);
     }
 
-    public function testCanFindAll(): void
-    {
+    public function testCanFindAll() : void {
         $stmt = $this->db->query('SELECT COUNT(*) FROM albums');
         $databaseCount = (int) $stmt->fetchColumn();
 
@@ -71,8 +68,7 @@ class AlbumSQLiteRepositoryTest extends TestCase
         }
     }
 
-    public function testCanFindById(): void
-    {
+    public function testCanFindById() : void {
 
         $stmt = $this->db->query('SELECT * FROM albums ORDER BY id DESC LIMIT 1');
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -86,8 +82,7 @@ class AlbumSQLiteRepositoryTest extends TestCase
         $this->assertEquals($album, $fetchData);
     }
 
-    public function testCanUpdate(): void
-    {
+    public function testCanUpdate() : void {
 
         $stmt = $this->db->query('SELECT * FROM albums ORDER BY id LIMIT 1');
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -118,8 +113,7 @@ class AlbumSQLiteRepositoryTest extends TestCase
         $this->assertSame('Updated Genre', $persistedAlbum->getGenre());
     }
 
-    public function testCanDestroy(): void
-    {
+    public function testCanDestroy() : void {
 
         $stmt = $this->db->query('SELECT id FROM albums ORDER BY id LIMIT 1');
         $id = (int) $stmt->fetchColumn();
