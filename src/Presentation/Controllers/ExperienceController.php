@@ -4,6 +4,7 @@ namespace App\Presentation\Controllers;
 
 use App\Domain\Services\ExperienceService;
 use App\Shared\DTO\NewExperienceData;
+use App\Shared\DTO\ExperienceAlbum;
 use App\Domain\Models\Experience;
 
 use App\Shared\Results\Result;
@@ -14,7 +15,9 @@ use Exception;
 
 class ExperienceController {
 
-    public function __construct(private ExperienceService $expService) {}
+    public function __construct(
+        private ExperienceService $expService
+    ) {}
 
     public function create(NewExperienceData $expData) : Result {
         try {
@@ -67,6 +70,21 @@ class ExperienceController {
         } catch(Exception $e) {
             return new Failure($e->getMessage());
         }
+    }
+
+    public function listWithAlbum(int $id) : Result {
+
+        try {
+            $data = $this->expService->listWithAlbum($id);
+            return new Success(
+                data: $data,
+                message: 'Experiência e Álbum encontrados'
+            );
+
+        } catch(Exception $e) {
+            return new Failure($e->getMessage());
+        }
+
     }
 
     public function edit(Experience $experience) : Result {

@@ -8,7 +8,7 @@ use App\Data\Repositories\Contracts\IExperienceRepository;
 
 use App\Domain\Mappers\ExperienceMapper;
 use App\Domain\Models\Experience;
-
+use App\Shared\DTO\ExperienceAlbum;
 use App\Shared\DTO\NewExperienceData;
 use App\Shared\DTO\ExperiencePersistedData;
 
@@ -76,6 +76,38 @@ final class ExperienceSQLiteRepository implements IExperienceRepository {
             $experiences
         );
 
+    }
+
+    public function findWithAlbum(int $id) : ExperienceAlbum {
+        $stmt = $this->pdo->prepare("
+            SELECT
+                e.id       AS experience_id,
+                e.album_id AS experience_album_id,
+                e.title    AS experience_title,
+                e.mood     AS experience_mood,
+                e.stars    AS experience_stars,
+                e.desc     AS experience_desc,
+
+                a.id       AS album_id,
+                a.name     AS album_name,
+                a.duration AS album_duration,
+                a.desc     AS album_desc,
+                a.artist   AS album_artist,
+                a.genre    AS album_genre
+
+            FROM experiences e
+
+            INNER JOIN albums a
+                ON a.id = e.album_id
+
+            WHERE e.id = :id
+        ");
+
+        $stmt->execute(['id' => $id]);
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $this->experienceMapper->fromJoinedArray($data);
     }
 
     public function update(Experience $data) : Experience {

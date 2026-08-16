@@ -5,6 +5,7 @@ namespace App\Domain\Services;
 use App\Domain\Models\Experience;
 use App\Shared\DTO\NewExperienceData;
 use App\Data\Repositories\Contracts\IExperienceRepository;
+use App\Shared\DTO\ExperienceAlbum;
 
 final class ExperienceService {
 
@@ -45,6 +46,10 @@ final class ExperienceService {
         return $this->experienceRep->findByAlbum($albumId);
 
     }   
+
+    public function listWithAlbum(int $id) : ExperienceAlbum {
+        return $this->experienceRep->findWithAlbum($id);
+    }
 
     public function edit(Experience $experience) : Experience {
 

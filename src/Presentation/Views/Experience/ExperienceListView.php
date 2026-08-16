@@ -28,8 +28,13 @@ final class ExperienceListView {
 
         } else {
 
+            $array = [];
+            foreach($experiences as $experience) {
+                $array[$experience->getId()] = $experience; 
+            }
+
             Render::list(
-                $experiences,
+                $array,
                 fn (Experience $e) =>
                     $e->getTitle()
                     . ' | '

@@ -8,6 +8,7 @@ use App\Presentation\Views\Experience\ExperienceView;
 use App\Presentation\Views\FeedbackView;
 
 use App\Domain\Models\Experience;
+use App\Domain\Models\Album;
 
 use App\Navigation\Router;
 use App\Navigation\RouteNames;
@@ -15,6 +16,7 @@ use App\Navigation\RouteNames;
 class ExperienceScreen extends Screen {
 
     private Experience $experience;
+    private Album $album;
 
     public function __construct(
             private ExperienceController $experienceController,
@@ -23,20 +25,21 @@ class ExperienceScreen extends Screen {
 
     public function load() : bool {
 
-        $result = $this->experienceController->listById($this->experienceId);
+        $result = $this->experienceController->listWithAlbum($this->experienceId);
 
         if(!$this->handle($result)) {
             Router::goBack();
             return false;
         }
 
-        $this->experience = $result->data;
+        $this->experience = $result->data->experience;
+        $this->album = $result->data->album;
         return true;
     }
 
     public function render() : void {
         
-        $option = ExperienceView::read($this->experience);
+        $option = ExperienceView::read($this->experience, $this->album);
         $this->triggerOption($option);
 
     }
@@ -46,7 +49,7 @@ class ExperienceScreen extends Screen {
         switch($option) {
 
             case 1:
-                Router::goTo(RouteNames::ALBUM, $this->experience->getAlbum()->getId());
+                Router::goTo(RouteNames::ALBUM, $this->experience->getAlbumId());
                 break;
 
             case 2:
