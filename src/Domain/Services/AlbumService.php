@@ -39,6 +39,8 @@ final class AlbumService {
 
     public function edit(Album $album) : Album {
 
+        $this->albumRep->findById($album->getId());     // Verifica se álbum existe
+
         return $this->albumRep->update($album);
         
     }

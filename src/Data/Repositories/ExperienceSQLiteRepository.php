@@ -11,6 +11,7 @@ use App\Domain\Models\Experience;
 use App\Shared\DTO\ExperienceAlbum;
 use App\Shared\DTO\NewExperienceData;
 use App\Shared\DTO\ExperiencePersistedData;
+use App\Shared\Exceptions\ExperienceNotFoundException;
 
 final class ExperienceSQLiteRepository implements IExperienceRepository {
 
@@ -58,9 +59,13 @@ final class ExperienceSQLiteRepository implements IExperienceRepository {
         $stmt = $this->pdo->prepare("SELECT * FROM experiences WHERE id = :id;");
 
         $stmt->execute(['id' => $id]);
-        $albumArray = $stmt->fetch(PDO::FETCH_ASSOC);
+        $experienceArray = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $this->experienceMapper->fromArray($albumArray);
+        if($experienceArray === false) {
+            throw new ExperienceNotFoundException('Experiência não encontrada');
+        }
+
+        return $this->experienceMapper->fromArray($experienceArray);
 
     }
 
@@ -107,6 +112,10 @@ final class ExperienceSQLiteRepository implements IExperienceRepository {
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if($data === false) {
+            throw new ExperienceNotFoundException('Experiência não encontrada');
+        }
+
         return $this->experienceMapper->fromJoinedArray($data);
     }
 
@@ -120,7 +129,7 @@ final class ExperienceSQLiteRepository implements IExperienceRepository {
             WHERE id = :id;
         ");
         $stmt->execute($experienceArray);
-
+        
         return $data;
 
     }
@@ -129,6 +138,10 @@ final class ExperienceSQLiteRepository implements IExperienceRepository {
         
         $stmt = $this->pdo->query("DELETE FROM experiences WHERE id = :id;");
         $stmt->execute(['id' => $id]);
+
+        if ($stmt->rowCount() === 0) {
+            throw new ExperienceNotFoundException('Experiência não encontrada');
+        }
 
         return $id;
 

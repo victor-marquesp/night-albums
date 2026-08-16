@@ -3,6 +3,9 @@
 namespace App\Data;
 
 use PDO;
+use PDOException;
+
+use App\Shared\Exceptions\CannotConnectException;
 
 final class DatabaseConnection {
 
@@ -10,12 +13,18 @@ final class DatabaseConnection {
 
     public function __construct() {
 
-        $this->connection = new PDO('sqlite:' .'././' .'/database/database.db');
+        try {
 
-        $this->connection->setAttribute(
-            PDO::ATTR_ERRMODE,
-            PDO::ERRMODE_EXCEPTION
-        );
+            $this->connection = new PDO('sqlite:' .'././' .'/database/database.db');
+
+            $this->connection->setAttribute(
+                PDO::ATTR_ERRMODE,
+                PDO::ERRMODE_EXCEPTION
+            );
+        
+        } catch (PDOException $e) {
+            throw new CannotConnectException('ERRO AO CONECTAR COM O BANCO DE DADOS: ' .$e->getMessage());
+        }
 
     }
 

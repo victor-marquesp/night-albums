@@ -53,9 +53,9 @@ final class ExperienceService {
 
     public function edit(Experience $experience) : Experience {
 
-        $this->experienceRep->update($experience);
+        $this->experienceRep->findById($experience->getId());
 
-        return $experience;
+        return $this->experienceRep->update($experience);
     }
 
     public function delete(int $id) : int {

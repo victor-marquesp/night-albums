@@ -11,6 +11,7 @@ use App\Shared\DTO\NewAlbumData;
 
 use App\Domain\Models\Album;
 use App\Shared\DTO\AlbumPersistedData;
+use App\Shared\Exceptions\AlbumNotFoundException;
 
 final class AlbumSQLiteRepository implements IAlbumRepository {
 
@@ -61,6 +62,10 @@ final class AlbumSQLiteRepository implements IAlbumRepository {
 
         $albumArray = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if($albumArray === false) {
+            throw new AlbumNotFoundException('Álbum Não encontrado');
+        }
+
         return $this->albumMapper->fromArray($albumArray);
     }
 
@@ -83,6 +88,10 @@ final class AlbumSQLiteRepository implements IAlbumRepository {
         
         $stmt = $this->pdo->prepare("DELETE FROM albums WHERE id = :id;");
         $stmt->execute(['id' => $id]);
+
+        if ($stmt->rowCount() === 0) {
+            throw new AlbumNotFoundException('Álbum não encontrado');
+        }
 
         return $id;
 
