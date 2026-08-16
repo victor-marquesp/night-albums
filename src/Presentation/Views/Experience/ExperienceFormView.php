@@ -4,7 +4,6 @@ namespace App\Presentation\Views\Experience;
 
 use App\Presentation\CLI\Output;
 use App\Presentation\CLI\Input;
-use App\Presentation\CLI\Render;
 
 use App\Shared\DTO\ExperienceFormData;
 
@@ -17,12 +16,13 @@ final class ExperienceFormView {
         Output::title();
         Output::header('Nova Experiência');
 
-        
+        $title = Input::word('Dê um título à sua experiência > ');
         $mood = Input::word('Se você pudesse descrever esse Álbum em  uma palavra... qual seria > ');
         $stars = Input::decimal('Quantas estrelas você dá para esse Álbum (0 - 5) > ');
         $desc = Input::text('Descreva sua experiência com esse Álbum (opcional) > ');
 
         return new ExperienceFormData(
+            title: $title,
             mood: $mood,
             stars: $stars,
             desc: $desc 
@@ -35,9 +35,14 @@ final class ExperienceFormView {
         Output::title();
         Output::header('Editar');
 
+        $title = Input::word(
+            'Dê um título à sua experiência (' 
+            . $data->title .') > ',
+            default: $data->title
+        );
         
         $mood = Input::word(
-            'Se você pudesse descrever esse Álbum em  uma palavra... qual seria(' 
+            'Se você pudesse descrever esse Álbum em  uma palavra... qual seria (' 
             . $data->mood .') > ',
             default: $data->mood
         );
@@ -56,6 +61,7 @@ final class ExperienceFormView {
         );
 
         return new ExperienceFormData(
+            title: $title,
             mood: $mood,
             stars: $stars,
             desc: $desc 

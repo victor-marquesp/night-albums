@@ -32,6 +32,7 @@ class ExperienceCreateScreen extends Screen {
 
         $experienceData = new NewExperienceData(
             albumId: $this->albumId,
+            title: $form->title,
             mood: $form->mood,
             stars: $form->stars,
             desc: $form->desc,

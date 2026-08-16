@@ -11,9 +11,7 @@ use App\Presentation\Controllers\ExperienceController;
 use App\Presentation\Views\Experience\ExperienceFormView;
 use App\Presentation\Views\FeedbackView;
 
-use App\Shared\DTO\NewExperienceData;
 use App\Shared\DTO\ExperienceFormData;
-use App\Shared\Results\Success;
 
 class ExperienceEditScreen extends Screen {
 
@@ -41,6 +39,7 @@ class ExperienceEditScreen extends Screen {
     public function render() : void {
 
         $data = new ExperienceFormData(
+            title: $this->experience->getTitle(),
             mood: $this->experience->getMood(),
             stars: $this->experience->getStars(),
             desc: $this->experience->getDesc(),
@@ -55,7 +54,8 @@ class ExperienceEditScreen extends Screen {
 
         $experienceData = new Experience(
             id: $this->experience->getId(),
-            album: $this->experience->getAlbum(),
+            albumId: $this->experience->getAlbumId(),
+            title: $form->title,
             mood: $form->mood,
             stars: $form->stars,
             desc: $form->desc,
