@@ -4,11 +4,11 @@
 
 ## 📖 Sobre o projeto
 
-O **NightAlbums** é uma aplicação **CLI (Command Line Interface)** desenvolvida em PHP que permite registrar e gerenciar experiências pessoais com 
+O NightAlbums é uma aplicação CLI desenvolvida em PHP que permite registrar e gerenciar experiências pessoais com 
 álbuns musicais.
 
-No sistema, **Experiências** são a entidade principal do domínio. Cada experiência está associada a um Álbum e representa um registro pessoal contendo avaliação, 
-descrição e sentimento do usuário durante a audição.
+No sistema, **Experiências** são a entidade principal do domínio. Cada experiência está associada a um **Álbum** e representa um registro pessoal contendo avaliação, 
+descrição e sentimento do usuário.
 
 ## ✨ Funcionalidades
 
@@ -17,7 +17,7 @@ Atualmente o projeto possui:
 * Cadastro e gerenciamento de experiências
 * Visualização de álbuns
 * Navegação entre telas utilizando um sistema próprio de rotas
-* Repositórios em memória
+* Perrsistência em SQLite
 
 ## 🚀 Tecnologias
 
@@ -72,7 +72,7 @@ Data
 
 ↓
 
-Memory Storage
+SQLite
 ```
 
 ### Responsabilidades
@@ -99,34 +99,9 @@ Contém as regras de negócio da aplicação.
 
 Responsável pela persistência.
 * Repositories
-* MemoryStorage
+* DatabaseConnection
 
-Atualmente utiliza armazenamento em memória.
-
-## 📂 Estrutura
-
-```
-/src
-├── 📁 Bootstrap
-│   └── 🐘 Application.php
-├── 📁 Data
-│   ├── 📁 IDB
-│   └── 📁 Repositories
-├── 📁 Domain
-│   ├── 📁 Models
-│   └── 📁 Services
-├── 📁 Navigation
-├── 📁 Presentation
-│   ├── 📁 CLI
-│   ├── 📁 Controllers
-│   ├── 📁 Screens
-│   └── 📁 Views
-└── 📁 Shared
-    ├── 📁 DTO
-    ├── 📁 Exceptions
-    ├── 📁 Results
-    └── 📁 Traits
-```
+Fala com o SQLite
 
 ## 🎯 Objetivos do projeto
 
@@ -138,22 +113,7 @@ Este projeto tem como objetivo praticar conceitos como:
 * Organização de projetos PHP sem frameworks
 * Navegação em aplicações CLI
 
----
-
-## 🔮 Próximos passos
-
-Algumas melhorias planejadas para o projeto incluem:
-
-* Substituir a persistência em memória por **SQLite**.
-* Integrar uma **API de álbuns** para consulta automática de informações (como título, artista, duração e gênero).
-* Adicionar busca e filtros.
-* Adicionar testes automatizados.
-
 ## 💡 Motivação
 
 O NightAlbums nasceu como um projeto de estudo para aprofundar conhecimentos em PHP além do uso de frameworks, explorando como arquitetar uma aplicação do zero, 
 desde a organização das camadas até a construção de um sistema de navegação próprio para aplicações CLI.
-
-## 📄 Licença
-
-Este projeto foi desenvolvido para fins de estudo e aprendizado. Sinta-se à vontade para utilizá-lo como referência ou adaptá-lo aos seus próprios projetos.
