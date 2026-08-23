@@ -5,7 +5,6 @@ namespace App\Presentation\Screens;
 use App\Presentation\Screens\Abstracts\Screen;
 use App\Presentation\Views\MainMenuView;
 use App\Presentation\Views\FeedbackView;
-use App\Presentation\CLI\Output;
 
 use App\Navigation\Router;
 use App\Navigation\RouteNames;

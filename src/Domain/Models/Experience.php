@@ -5,7 +5,7 @@ namespace App\Domain\Models;
 use App\Shared\Exceptions\InvalidExperienceDataException;
 
 class Experience {
-    private readonly int $id;
+    private readonly ?int $id;      // Nulo pois a persistência gera o ID
     private readonly int $albumId;
 
     private string $title;
@@ -15,16 +15,19 @@ class Experience {
     private ?string $desc;
 
     public function __construct(
-        int $id, 
+        ?int $id, 
         int $albumId, 
         string $title,
         string $mood, 
         float $stars, 
         ?string $desc = null) {
         
-        $this->setTitle($title);
-        $this->setId($id);
+        if($id !== null) {
+            $this->setId($id);
+        }
+
         $this->setAlbumId($albumId);
+        $this->setTitle($title);
         $this->setDesc($desc);
         $this->setMood($mood);  
         $this->setStars($stars);
@@ -35,7 +38,7 @@ class Experience {
     // GETTERS E SETTERS
     // ===========================================================================================================  
 
-    private function setId(int $id) : void {
+    public function setId(int $id) : void {
         $this->id = $id;
     }
 

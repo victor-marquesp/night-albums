@@ -12,17 +12,21 @@ final class AlbumService {
     public function __construct(private IAlbumRepository $albumRep) {}
 
     public function create(NewAlbumData $data) : Album {
+        
+        $album = new Album(
+            id: null,
+            name: $data->name,
+            duration: $data->duration,
+            desc: $data->desc,
+            artist: $data->artist,
+            genre: $data->genre
+        );
 
         $persisted = $this->albumRep->save($data);
-        
-        return new Album(
-            id: $persisted->id,
-            name: $persisted->name,
-            duration: $persisted->duration,
-            desc: $persisted->desc,
-            artist: $persisted->artist,
-            genre: $persisted->genre
-        );
+
+        $album->setId($persisted->id);
+
+        return $album;
     }
 
     public function listAll(): array {

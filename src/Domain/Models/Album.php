@@ -6,7 +6,7 @@ use App\Shared\Exceptions\InvalidAlbumDataException;
 
 class Album {
     
-    private readonly int $id;
+    private readonly ?int $id;      // Nulo pois o ID é gerado pela persistência (SQLite)
 
     private string $name;
     private int $duration;
@@ -16,14 +16,17 @@ class Album {
     private ?string $genre;
 
     public function __construct(
-        int $id,
+        ?int $id,
         string $name, 
         int $duration,
         ?string $desc = null, 
         ?string $artist = null, 
         ?string $genre = null) {
 
-        $this->setId($id);
+        if($id !== null) {
+            $this->setId($id);
+        }
+
         $this->setName($name);
         $this->setDesc($desc);
         $this->setArtist($artist);
@@ -36,7 +39,7 @@ class Album {
     // GETTERS E SETTERS
     // ===========================================================================================================    
 
-    private function setId(int $id) : void {
+    public function setId(int $id) : void {
         $this->id = $id;
     }
 

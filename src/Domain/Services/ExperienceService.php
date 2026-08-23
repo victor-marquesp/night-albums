@@ -15,16 +15,18 @@ final class ExperienceService {
 
     public function create(NewExperienceData $data) : Experience {
 
+        $experience = new Experience(
+            id: null,
+            albumId: $data->albumId,
+            title: $data->title,
+            mood: $data->mood,
+            stars: $data->stars,
+            desc: $data->desc
+        );
+
         $persisted = $this->experienceRep->save($data);
 
-        $experience = new Experience(
-            id: $persisted->id,
-            albumId: $persisted->albumId,
-            title: $persisted->title,
-            mood: $persisted->mood,
-            stars: $persisted->stars,
-            desc: $persisted->desc
-        );
+        $experience->setId($persisted->id);
 
         return $experience;
     }
